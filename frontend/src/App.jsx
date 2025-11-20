@@ -2,9 +2,16 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Layout from './components/Layout';
+import Footer from './components/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import Rooms from './pages/Rooms';
+import Profile from './pages/Profile';
+import MyBookings from './pages/MyBookings';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminRooms from './pages/AdminRooms';
+import AdminReports from './pages/AdminReports';
 
 // Componente de ruta protegida
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -22,7 +29,12 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     return <Navigate to="/" />;
   }
 
-  return <Layout>{children}</Layout>;
+  return (
+    <>
+      <Layout>{children}</Layout>
+      <Footer />
+    </>
+  );
 };
 
 // Componente de ruta pública (no accesible si está autenticado)
@@ -40,13 +52,23 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
+// Componente para rutas públicas con Footer (SIN Layout/Sidebar)
+const PublicLayoutRoute = ({ children }) => {
+  return (
+    <>
+      {children}
+      <Footer />
+    </>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Toaster position="top-right" />
         <Routes>
-          {/* Rutas públicas */}
+          {/* Rutas públicas de autenticación */}
           <Route
             path="/login"
             element={
@@ -64,12 +86,30 @@ function App() {
             }
           />
           
-          {/* Rutas protegidas */}
+          {/* Rutas públicas con Footer */}
           <Route
             path="/"
             element={
-              <ProtectedRoute>
+              <PublicLayoutRoute>
                 <Home />
+              </PublicLayoutRoute>
+            }
+          />
+          <Route
+            path="/rooms"
+            element={
+              <PublicLayoutRoute>
+                <Rooms />
+              </PublicLayoutRoute>
+            }
+          />
+
+          {/* Rutas protegidas de usuario */}
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />
@@ -77,25 +117,25 @@ function App() {
             path="/reservas"
             element={
               <ProtectedRoute>
-                <h1>Mis Reservas</h1>
+                <MyBookings />
               </ProtectedRoute>
             }
           />
           
           {/* Rutas de administrador */}
           <Route
-            path="/admin/habitaciones"
+            path="/admin/dashboard"
             element={
               <ProtectedRoute adminOnly>
-                <h1>Admin: Habitaciones</h1>
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/admin/users"
+            path="/admin/habitaciones"
             element={
               <ProtectedRoute adminOnly>
-                <h1>Admin: Usuarios</h1>
+                <AdminRooms />
               </ProtectedRoute>
             }
           />
@@ -103,7 +143,18 @@ function App() {
             path="/admin/reportes"
             element={
               <ProtectedRoute adminOnly>
-                <h1>Admin: Reportes</h1>
+                <AdminReports />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute adminOnly>
+                <div className="max-w-7xl mx-auto px-4 py-8">
+                  <h1 className="text-3xl font-bold text-wood-ink">Gestión de Usuarios</h1>
+                  <p className="text-gray-600 mt-4">Próximamente...</p>
+                </div>
               </ProtectedRoute>
             }
           />

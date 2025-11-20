@@ -10,10 +10,10 @@ exports.getOccupancyReport = async (req, res) => {
 
         const occupancyData = await Room.findAll({
             attributes: [
-                'status',
+                'estado',
                 [sequelize.fn('COUNT', sequelize.col('id')), 'count']
             ],
-            group: ['status']
+            group: ['estado']
         });
 
         const bookingsData = await Booking.findAll({
@@ -147,7 +147,7 @@ exports.getDashboardStats = async (req, res) => {
     try {
         // Estadísticas generales
         const totalRooms = await Room.count();
-        const occupiedRooms = await Room.count({ where: { status: 'occupied' } });
+        const occupiedRooms = await Room.count({ where: { estado: 'ocupada' } });
         const activeBookings = await Booking.count({ 
             where: { 
                 status: 'confirmed',
@@ -182,7 +182,7 @@ exports.getDashboardStats = async (req, res) => {
             include: [
                 {
                     model: Room,
-                    attributes: ['room_number']
+                    attributes: ['numero']
                 }
             ],
             limit: 5

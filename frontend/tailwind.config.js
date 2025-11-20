@@ -19,6 +19,14 @@ export default {
           800: '#075985',
           900: '#0c4a6e',
         }
+        ,
+        wood: {
+          light: '#BAAC8D',
+          medium: '#7B502B',
+          beige: '#A18D63',
+          dark: '#5D3618',
+          ink: '#1F140D'
+        }
       }
     },
   },

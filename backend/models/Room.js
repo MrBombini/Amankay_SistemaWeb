@@ -1,38 +1,43 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const RoomType = require('./RoomType');
 
-const Room = sequelize.define('Room', {
+const Room = sequelize.define('habitacion', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        field: 'id'
     },
-    room_number: {
+    numero: {
         type: DataTypes.STRING(10),
-        allowNull: false,
-        unique: true
+        field: 'numero'
     },
-    status: {
-        type: DataTypes.ENUM('available', 'occupied', 'maintenance'),
-        defaultValue: 'available'
+    tipo: {
+        type: DataTypes.STRING(50),
+        field: 'tipo'
     },
-    description: {
-        type: DataTypes.TEXT
+    precio: {
+        type: DataTypes.DECIMAL(10, 2),
+        field: 'precio'
     },
-    image_url: {
-        type: DataTypes.STRING(255)
+    estado: {
+        type: DataTypes.STRING(50),
+        field: 'estado'
+    },
+    descripcion: {
+        type: DataTypes.TEXT,
+        field: 'descripcion'
+    },
+    imagen: {
+        type: DataTypes.STRING(255),
+        field: 'imagen'
     }
 }, {
-    timestamps: true
-});
-
-// Relación con RoomType
-Room.belongsTo(RoomType, {
-    foreignKey: {
-        name: 'room_type_id',
-        allowNull: false
-    }
+    tableName: 'habitaciones',
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    freezeTableName: true
 });
 
 module.exports = Room;

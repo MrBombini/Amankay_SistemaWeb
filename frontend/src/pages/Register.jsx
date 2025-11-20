@@ -44,8 +44,13 @@ export default function Register() {
                 email: formData.email,
                 password: formData.password
             });
-            login(response.data);
-            navigate('/');
+            const payload = response.data || response;
+            login(payload);
+            if (payload.user && payload.user.role === 'admin') {
+                navigate('/admin/habitaciones');
+            } else {
+                navigate('/');
+            }
         } catch (err) {
             setError(err.response?.data?.message || 'Error al registrar usuario');
         } finally {

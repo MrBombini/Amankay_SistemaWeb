@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import authService from '../services/authService';
 
 const AuthContext = createContext();
 
@@ -9,22 +10,33 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Verificar si hay un token guardado
         const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('user');
-        
-        if (token && userData) {
-            setAuth({
-                token,
-                user: JSON.parse(userData)
-            });
+        if (token) {
+            // refresh profile from backend
+            authService.getProfile()
+                .then((res) => {
+                    const payload = res.data || res;
+                    const user = payload.user || payload;
+                    localStorage.setItem('user', JSON.stringify(user));
+                    setAuth({ token, user });
+                })
+                .catch((err) => {
+                    console.error('No se pudo refrescar perfil', err);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    setAuth(null);
+                })
+                .finally(() => setLoading(false));
+        } else {
+            setLoading(false);
         }
-        
-        setLoading(false);
     }, []);
 
     const login = (userData) => {
-        localStorage.setItem('token', userData.token);
-        localStorage.setItem('user', JSON.stringify(userData.user));
-        setAuth(userData);
+        const token = userData.token || userData.data?.token || (userData.data && userData.data.token);
+        const user = userData.user || userData.data?.user || userData.data?.user || userData.data;
+        if (token) localStorage.setItem('token', token);
+        if (user) localStorage.setItem('user', JSON.stringify(user));
+        setAuth({ token, user });
     };
 
     const logout = () => {

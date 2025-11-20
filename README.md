@@ -28,8 +28,11 @@ cp .env.example .env
 Editar el archivo `.env` con tus configuraciones.
 
 4. Crear la base de datos:
-- Importar el archivo `database.sql` en tu servidor MySQL
-
+- **IMPORTANTE**: Ejecuta el archivo `database.sql` en tu servidor MySQL
+  - Este es el **ÚNICO archivo de BD necesario**
+  - Crea todas las tablas y carga datos de prueba (usuarios, habitaciones)
+  - Ver más detalles en: `DATABASE_INFO.md`
+  
 5. Iniciar el servidor en modo desarrollo:
 ```bash
 npm run dev

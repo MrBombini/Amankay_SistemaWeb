@@ -2,19 +2,24 @@ const { body, param, query } = require('express-validator');
 const { validateResult } = require('./validateHelper');
 
 const validateRoom = [
-    body('room_number')
+    body('numero')
         .notEmpty()
         .withMessage('El número de habitación es requerido')
         .isString()
         .withMessage('El número de habitación debe ser texto'),
-    body('room_type_id')
+    body('tipo')
         .notEmpty()
         .withMessage('El tipo de habitación es requerido')
-        .isInt()
-        .withMessage('El tipo de habitación debe ser un número'),
-    body('status')
+        .isString()
+        .withMessage('El tipo de habitación debe ser texto'),
+    body('precio')
+        .notEmpty()
+        .withMessage('El precio es requerido')
+        .isFloat({ min: 0 })
+        .withMessage('El precio debe ser un número positivo'),
+    body('estado')
         .optional()
-        .isIn(['available', 'occupied', 'maintenance'])
+        .isIn(['disponible', 'ocupada', 'mantenimiento'])
         .withMessage('Estado inválido'),
     (req, res, next) => {
         validateResult(req, res, next);
@@ -22,19 +27,8 @@ const validateRoom = [
 ];
 
 const validateRoomType = [
-    body('name')
-        .notEmpty()
-        .withMessage('El nombre es requerido')
-        .isString()
-        .withMessage('El nombre debe ser texto'),
-    body('base_price')
-        .notEmpty()
-        .withMessage('El precio base es requerido')
-        .isFloat({ min: 0 })
-        .withMessage('El precio debe ser un número positivo'),
-    (req, res, next) => {
-        validateResult(req, res, next);
-    }
+    // DEPRECATED: RoomType is no longer used in the new database structure
+    // Room types are now stored directly in the habitaciones table as 'tipo' field
 ];
 
 module.exports = {
