@@ -3,39 +3,50 @@ const sequelize = require('../config/database');
 const User = require('./User');
 const Room = require('./Room');
 
-const Booking = sequelize.define('Booking', {
+const Booking = sequelize.define('reserva', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        field: 'id'
     },
     check_in_date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        field: 'fecha_inicio'
     },
     check_out_date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        field: 'fecha_fin'
     },
     status: {
-        type: DataTypes.ENUM('pending', 'confirmed', 'cancelled', 'completed'),
-        defaultValue: 'pending'
+        type: DataTypes.ENUM('pendiente', 'confirmada', 'cancelada', 'completada'),
+        defaultValue: 'pendiente',
+        field: 'estado'
     },
     total_price: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
+        allowNull: true,
+        field: 'total_price'
     },
     special_requests: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        field: 'special_requests'
     }
 }, {
-    timestamps: true
+    tableName: 'reservas',
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    freezeTableName: true
 });
 
 // Relaciones
 Booking.belongsTo(User, {
     foreignKey: {
         name: 'user_id',
+        field: 'id_usuario',
         allowNull: false
     }
 });
@@ -43,6 +54,7 @@ Booking.belongsTo(User, {
 Booking.belongsTo(Room, {
     foreignKey: {
         name: 'room_id',
+        field: 'id_habitacion',
         allowNull: false
     }
 });

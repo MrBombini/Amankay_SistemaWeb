@@ -79,7 +79,8 @@ async function startServer() {
 
         // Sincronizar modelos con la base de datos
         // En producción, usar { force: false }
-        await sequelize.sync({ force: false });
+        // await sequelize.sync({ alter: false, force: false });
+        console.log('⚠️  Sincronización de modelos desactivada (usando tablas existentes).');
         console.log('✅ Modelos sincronizados con la base de datos.');
 
         // Encontrar puerto disponible

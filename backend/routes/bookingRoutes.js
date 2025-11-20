@@ -7,12 +7,15 @@ const { validateBooking } = require('../validators/bookingValidators');
 // Todas las rutas requieren autenticación
 router.use(authenticateToken);
 
-// Rutas para todos los usuarios
+// Rutas más específicas primero
 router.get('/my-bookings', bookingController.getUserBookings);
+router.get('/user/:userId', bookingController.getUserBookings);
+router.patch('/:id/cancel', bookingController.cancelBooking);
+
+// Rutas generales después
 router.post('/', validateBooking, bookingController.createBooking);
 router.get('/:id', bookingController.getBooking);
 router.put('/:id', validateBooking, bookingController.updateBooking);
-router.patch('/:id/cancel', bookingController.cancelBooking);
 
 // Rutas solo para admin
 router.get('/', isAdmin, bookingController.getAllBookings);

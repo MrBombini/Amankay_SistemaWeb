@@ -1,20 +1,17 @@
-const Room = require('../models/Room');
-const RoomType = require('../models/RoomType');
-const { Op } = require('sequelize');
+const sequelize = require('../config/database');
 
 exports.getAllRooms = async (req, res) => {
     try {
-        const rooms = await Room.findAll({
-            include: [{
-                model: RoomType,
-                attributes: ['name', 'base_price']
-            }]
-        });
+        // Usar raw query para obtener directamente de la BD
+        const [rooms] = await sequelize.query('SELECT * FROM habitaciones');
+        console.log('✅ Habitaciones obtenidas:', rooms.length, 'registros');
+        
         res.json({
             status: 'success',
             data: { rooms }
         });
     } catch (error) {
+        console.error('❌ Error en getAllRooms:', error.message);
         res.status(500).json({
             status: 'error',
             message: 'Error al obtener las habitaciones',
@@ -27,7 +24,6 @@ exports.getAvailableRooms = async (req, res) => {
     try {
         const { checkIn, checkOut } = req.query;
         
-        // Validar fechas
         if (!checkIn || !checkOut) {
             return res.status(400).json({
                 status: 'error',
@@ -35,16 +31,10 @@ exports.getAvailableRooms = async (req, res) => {
             });
         }
 
-        // Obtener habitaciones disponibles
-        const rooms = await Room.findAll({
-            where: {
-                status: 'available'
-            },
-            include: [{
-                model: RoomType,
-                attributes: ['name', 'base_price']
-            }]
-        });
+        const [rooms] = await sequelize.query(
+            'SELECT * FROM habitaciones WHERE estado = ?',
+            { replacements: ['disponible'] }
+        );
 
         res.json({
             status: 'success',
@@ -61,14 +51,12 @@ exports.getAvailableRooms = async (req, res) => {
 
 exports.getRoom = async (req, res) => {
     try {
-        const room = await Room.findByPk(req.params.id, {
-            include: [{
-                model: RoomType,
-                attributes: ['name', 'base_price']
-            }]
-        });
+        const [rooms] = await sequelize.query(
+            'SELECT * FROM habitaciones WHERE id = ?',
+            { replacements: [req.params.id] }
+        );
         
-        if (!room) {
+        if (!rooms || rooms.length === 0) {
             return res.status(404).json({
                 status: 'error',
                 message: 'Habitación no encontrada'
@@ -77,7 +65,7 @@ exports.getRoom = async (req, res) => {
 
         res.json({
             status: 'success',
-            data: { room }
+            data: { room: rooms[0] }
         });
     } catch (error) {
         res.status(500).json({
@@ -90,18 +78,16 @@ exports.getRoom = async (req, res) => {
 
 exports.createRoom = async (req, res) => {
     try {
-        const room = await Room.create(req.body);
+        const { numero, tipo, precio, estado, descripcion, imagen } = req.body;
         
-        const roomWithType = await Room.findByPk(room.id, {
-            include: [{
-                model: RoomType,
-                attributes: ['name', 'base_price']
-            }]
-        });
+        await sequelize.query(
+            'INSERT INTO habitaciones (numero, tipo, precio, estado, descripcion, imagen) VALUES (?, ?, ?, ?, ?, ?)',
+            { replacements: [numero, tipo, precio, estado || 'disponible', descripcion, imagen] }
+        );
 
         res.status(201).json({
             status: 'success',
-            data: { room: roomWithType }
+            message: 'Habitación creada exitosamente'
         });
     } catch (error) {
         res.status(500).json({
@@ -114,26 +100,16 @@ exports.createRoom = async (req, res) => {
 
 exports.updateRoom = async (req, res) => {
     try {
-        const room = await Room.findByPk(req.params.id);
-        if (!room) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Habitación no encontrada'
-            });
-        }
-
-        await room.update(req.body);
+        const { numero, tipo, precio, estado, descripcion, imagen } = req.body;
         
-        const updatedRoom = await Room.findByPk(room.id, {
-            include: [{
-                model: RoomType,
-                attributes: ['name', 'base_price']
-            }]
-        });
+        await sequelize.query(
+            'UPDATE habitaciones SET numero=?, tipo=?, precio=?, estado=?, descripcion=?, imagen=? WHERE id=?',
+            { replacements: [numero, tipo, precio, estado, descripcion, imagen, req.params.id] }
+        );
 
         res.json({
             status: 'success',
-            data: { room: updatedRoom }
+            message: 'Habitación actualizada exitosamente'
         });
     } catch (error) {
         res.status(500).json({
@@ -146,15 +122,11 @@ exports.updateRoom = async (req, res) => {
 
 exports.deleteRoom = async (req, res) => {
     try {
-        const room = await Room.findByPk(req.params.id);
-        if (!room) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Habitación no encontrada'
-            });
-        }
+        await sequelize.query(
+            'DELETE FROM habitaciones WHERE id = ?',
+            { replacements: [req.params.id] }
+        );
 
-        await room.destroy();
         res.json({
             status: 'success',
             message: 'Habitación eliminada correctamente'

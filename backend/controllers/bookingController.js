@@ -1,6 +1,7 @@
 const Booking = require('../models/Booking');
 const Room = require('../models/Room');
 const User = require('../models/User');
+const sequelize = require('../config/database');
 const { Op } = require('sequelize');
 
 exports.getAllBookings = async (req, res) => {
@@ -8,8 +9,7 @@ exports.getAllBookings = async (req, res) => {
         const bookings = await Booking.findAll({
             include: [
                 {
-                    model: Room,
-                    attributes: ['room_number', 'status']
+                    model: Room
                 },
                 {
                     model: User,
@@ -36,8 +36,7 @@ exports.getUserBookings = async (req, res) => {
             where: { user_id: req.user.id },
             include: [
                 {
-                    model: Room,
-                    attributes: ['room_number', 'status']
+                    model: Room
                 }
             ]
         });
@@ -59,8 +58,7 @@ exports.getBooking = async (req, res) => {
         const booking = await Booking.findByPk(req.params.id, {
             include: [
                 {
-                    model: Room,
-                    attributes: ['room_number', 'status']
+                    model: Room
                 },
                 {
                     model: User,
@@ -106,7 +104,7 @@ exports.createBooking = async (req, res) => {
             where: {
                 room_id,
                 status: {
-                    [Op.notIn]: ['cancelled']
+                    [Op.notIn]: ['cancelada']
                 },
                 [Op.or]: [
                     {
@@ -130,12 +128,13 @@ exports.createBooking = async (req, res) => {
             });
         }
 
-        // Obtener el precio de la habitación
-        const room = await Room.findByPk(room_id, {
-            include: [{ model: RoomType }]
-        });
+        // Obtener el precio de la habitación usando raw query
+        const [roomData] = await sequelize.query(
+            'SELECT * FROM habitaciones WHERE id = ?',
+            { replacements: [room_id] }
+        );
 
-        if (!room) {
+        if (!roomData || roomData.length === 0) {
             return res.status(404).json({
                 status: 'error',
                 message: 'Habitación no encontrada'
@@ -144,7 +143,7 @@ exports.createBooking = async (req, res) => {
 
         // Calcular el precio total
         const days = Math.ceil((new Date(check_out_date) - new Date(check_in_date)) / (1000 * 60 * 60 * 24));
-        const total_price = room.RoomType.base_price * days;
+        const total_price = roomData[0].precio * days;
 
         // Crear la reserva
         const booking = await Booking.create({
@@ -154,14 +153,13 @@ exports.createBooking = async (req, res) => {
             check_out_date,
             total_price,
             special_requests,
-            status: 'pending'
+            status: 'pendiente'
         });
 
         const bookingWithDetails = await Booking.findByPk(booking.id, {
             include: [
                 {
-                    model: Room,
-                    attributes: ['room_number', 'status']
+                    model: Room
                 },
                 {
                     model: User,
@@ -207,8 +205,7 @@ exports.updateBooking = async (req, res) => {
         const updatedBooking = await Booking.findByPk(booking.id, {
             include: [
                 {
-                    model: Room,
-                    attributes: ['room_number', 'status']
+                    model: Room
                 },
                 {
                     model: User,
@@ -249,7 +246,7 @@ exports.cancelBooking = async (req, res) => {
             });
         }
 
-        await booking.update({ status: 'cancelled' });
+        await booking.update({ status: 'cancelada' });
 
         res.json({
             status: 'success',

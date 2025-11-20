@@ -27,8 +27,15 @@ export default function Login() {
 
         try {
             const response = await authService.login(formData);
-            login(response.data);
-            navigate('/');
+                // response is the server body: { status, data: { user, token } }
+                const payload = response.data || response; // support both shapes
+                login(payload);
+                // Redirect admins to admin panel
+                if (payload.user && payload.user.role === 'admin') {
+                    navigate('/admin/habitaciones');
+                } else {
+                    navigate('/');
+                }
         } catch (err) {
             setError(err.response?.data?.message || 'Error al iniciar sesión');
         } finally {

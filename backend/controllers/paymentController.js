@@ -28,11 +28,11 @@ exports.createPayment = async (req, res) => {
             amount,
             payment_method,
             transaction_id,
-            status: 'completed'
+            status: 'completado'
         });
 
         // Actualizar el estado de la reserva
-        await booking.update({ status: 'confirmed' });
+        await booking.update({ status: 'confirmada' });
 
         res.status(201).json({
             status: 'success',

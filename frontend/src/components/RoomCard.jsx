@@ -1,8 +1,8 @@
 export default function RoomCard({ room, onBook, isAdmin, onEdit, onDelete }) {
   const statusColors = {
-    available: 'bg-green-100 text-green-800',
-    occupied: 'bg-red-100 text-red-800',
-    maintenance: 'bg-yellow-100 text-yellow-800',
+    disponible: 'bg-green-100 text-green-800',
+    ocupada: 'bg-red-100 text-red-800',
+    mantenimiento: 'bg-yellow-100 text-yellow-800',
   };
 
   return (
@@ -10,27 +10,25 @@ export default function RoomCard({ room, onBook, isAdmin, onEdit, onDelete }) {
       <div className="p-4">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-medium text-gray-900">
-            Habitación {room.room_number}
+            Habitación {room.numero}
           </h3>
           <span
             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-              statusColors[room.status]
+              statusColors[room.estado]
             }`}
           >
-            {room.status}
+            {room.estado}
           </span>
         </div>
-        <p className="mt-1 text-sm text-gray-500">{room.description}</p>
-        {room.RoomType && (
-          <div className="mt-4">
-            <p className="text-sm font-medium text-gray-500">
-              Tipo: {room.RoomType.name}
-            </p>
-            <p className="text-lg font-semibold text-gray-900">
-              ${room.RoomType.base_price}/noche
-            </p>
-          </div>
-        )}
+        <p className="mt-1 text-sm text-gray-500">{room.descripcion}</p>
+        <div className="mt-4">
+          <p className="text-sm font-medium text-gray-500">
+            Tipo: {room.tipo}
+          </p>
+          <p className="text-lg font-semibold text-gray-900">
+            ${room.precio}/noche
+          </p>
+        </div>
       </div>
       <div className="bg-gray-50 px-4 py-4 sm:px-6">
         <div className="flex justify-end space-x-3">

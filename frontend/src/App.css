@@ -5,6 +5,45 @@
   text-align: center;
 }
 
+/* React Calendar Styles */
+.react-calendar {
+  border: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+.react-calendar__tile {
+  padding: 10px 0;
+  background: white;
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.react-calendar__tile--active {
+  background: #7B502B;
+  color: white;
+  font-weight: bold;
+}
+
+.react-calendar__tile--active:hover {
+  background: #5D3618;
+}
+
+.react-calendar__tile:hover {
+  background: #BAAC8D;
+  cursor: pointer;
+}
+
+.react-calendar__navigation button {
+  color: #7B502B;
+  font-weight: bold;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  font-weight: bold;
+  color: #7B502B;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
