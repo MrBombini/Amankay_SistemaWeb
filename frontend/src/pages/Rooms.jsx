@@ -88,7 +88,7 @@ export default function Rooms() {
         {filtered.length > 0 ? (
           filtered.map(room => (
             <div key={room.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden">
-              <div className="bg-wood-light/20 p-6 h-40 flex items-center justify-center text-6xl">
+              <div className="p-6 h-40 flex items-center justify-center text-6xl">
                 🛏️
               </div>
               <div className="p-6">
@@ -124,7 +124,7 @@ export default function Rooms() {
                   disabled={room.estado !== 'disponible'}
                   className={`w-full py-2 px-4 rounded-lg font-semibold transition ${
                     room.estado === 'disponible'
-                    ? 'bg-wood-medium text-white hover:bg-wood-dark'
+                    ? ' text-white'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >

@@ -165,10 +165,10 @@ export default function BookingModal({ room, open, onClose, onBooked }) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+          <div className="fixed inset-0 bg bg-white/30 backdrop-blur-lg bg-opacity-50 transition-opacity " />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto animate-fade-in">
           <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
@@ -186,7 +186,7 @@ export default function BookingModal({ room, open, onClose, onBooked }) {
                   </Dialog.Title>
                   <button
                     onClick={onClose}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="hover:text-gray-600"
                   >
                     <XMarkIcon className="w-6 h-6" />
                   </button>
@@ -244,13 +244,13 @@ export default function BookingModal({ room, open, onClose, onBooked }) {
                     <div className="flex justify-end gap-3">
                       <button
                         onClick={onClose}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-[#E5E7E9] transition"
                       >
                         Cancelar
                       </button>
                       <button
                         onClick={() => setStep('calendar')}
-                        className="px-6 py-2 bg-wood-medium text-white rounded-lg hover:bg-wood-dark transition font-semibold"
+                        className="px-6 py-2 border rounded-lg border-black hover:bg-[#E5E7E9] transition font-semibold"
                       >
                         Seleccionar Fechas
                       </button>
@@ -317,23 +317,23 @@ export default function BookingModal({ room, open, onClose, onBooked }) {
                     <div className="flex justify-between gap-3">
                       <button
                         onClick={() => setStep('details')}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-[#E5E7E9] transition"
                       >
                         ← Atrás
                       </button>
                       <div className="flex gap-3">
                         <button
                           onClick={onClose}
-                          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-[#E5E7E9] transition" 
                         >
                           Cancelar
                         </button>
                         <button
                           onClick={() => setStep('review')}
                           disabled={!checkInDate || !checkOutDate}
-                          className="px-6 py-2 bg-wood-medium text-white rounded-lg hover:bg-wood-dark transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-6 py-2 border border-black rounded-lg hover:bg-[#E5E7E9] transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Continuar →
+                          Continuar
                         </button>
                       </div>
                     </div>
@@ -398,14 +398,14 @@ export default function BookingModal({ room, open, onClose, onBooked }) {
                     <div className="flex justify-between gap-3">
                       <button
                         onClick={() => setStep('calendar')}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-[#E5E7E9] transition"
                       >
                         ← Atrás
                       </button>
                       <div className="flex gap-3">
                         <button
                           onClick={onClose}
-                          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-[#E5E7E9] transition"
                         >
                           Cancelar
                         </button>

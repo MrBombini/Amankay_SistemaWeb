@@ -284,7 +284,7 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-lg shadow overflow-hidden">
                 <div className="p-6 border-b flex justify-between items-center">
                   <h2 className="text-2xl font-bold text-wood-ink">Gestión de Habitaciones</h2>
-                  <button className="bg-wood-medium text-white px-4 py-2 rounded-lg font-semibold hover:bg-wood-dark transition flex items-center gap-2">
+                  <button className="text-white px-4 py-2 rounded-lg font-semibold transition flex items-center gap-2">
                     <PlusIcon className="w-5 h-5" />
                     Agregar Habitación
                   </button>

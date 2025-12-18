@@ -64,6 +64,7 @@ const PublicLayoutRoute = ({ children }) => {
 
 function App() {
   return (
+    <div className="bg-gray-50">
     <AuthProvider>
       <Router>
         <Toaster position="top-right" />
@@ -161,6 +162,7 @@ function App() {
         </Routes>
       </Router>
     </AuthProvider>
+    </div>
   );
 }
 

@@ -91,8 +91,8 @@ export default function MyBookings() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-wood-ink">Mis Reservas</h1>
-        <p className="text-gray-600 mt-2">Aquí puedes ver y gestionar todas tus reservas en Amankay Inn</p>
+        <h1 className="text-3xl text-white font-bold text-wood-ink">Mis Reservas</h1>
+        <p className="text-white mt-2">Aquí puedes ver y gestionar todas tus reservas en Amankay Inn</p>
       </div>
 
       {bookings.length === 0 ? (
@@ -100,7 +100,7 @@ export default function MyBookings() {
           <CalendarIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 mb-2">No tienes reservas</h3>
           <p className="text-gray-600 mb-6">¿Listo para hacer tu primera reserva?</p>
-          <a href="/rooms" className="inline-block bg-wood-medium text-white px-6 py-2 rounded-lg font-semibold hover:bg-wood-dark transition">
+          <a href="/rooms" className="inline-block bg-wood-medium px-6 py-2 rounded-lg font-semibold hover:bg-wood-dark transition">
             Ver Habitaciones
           </a>
         </div>
@@ -108,7 +108,7 @@ export default function MyBookings() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {bookings.map((booking) => (
             <div key={booking.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border border-gray-200">
-              <div className="bg-gradient-to-r from-wood-medium to-wood-beige p-4 text-white">
+              <div className="bg-linear-to-r from-wood-medium to-wood-beige p-4">
                 <h3 className="text-lg font-bold">Habitación #{booking.room?.numero || 'N/A'}</h3>
                 <p className="text-wood-light text-sm mt-1">{booking.room?.tipo || 'Tipo de habitación'}</p>
               </div>
@@ -154,7 +154,7 @@ export default function MyBookings() {
                 {booking.status !== 'cancelada' && (
                   <button
                     onClick={() => handleCancel(booking)}
-                    className="w-full mt-4 px-4 py-2 border-2 border-red-500 text-red-500 rounded-lg font-semibold hover:bg-red-50 transition"
+                    className="w-full mt-4 px-4 py-2 border-2 border-red-500 text-red-500 hover:bg-red-100 rounded-lg font-semibold transition"
                   >
                     Cancelar Reserva
                   </button>

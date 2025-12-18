@@ -5,13 +5,13 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-wood-ink text-white">
+    <footer className="bg-gray-900 text-white">
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* About */}
           <div>
-            <h4 className="text-xl font-bold mb-4 text-wood-light">Amankay Inn</h4>
+            <h4 className="text-xl font-bold mb-4">Amankay Inn</h4>
             <p className="text-gray-300 text-sm leading-relaxed">
               Tu refugio de confort y calidez en el corazón de la ciudad. Disfruta de una experiencia única con nuestro servicio personalizado.
             </p>
@@ -19,18 +19,18 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-wood-light">Enlaces</h4>
+            <h4 className="text-lg font-bold mb-4 ">Enlaces</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/" className="text-gray-300 hover:text-wood-light transition">Inicio</Link></li>
-              <li><Link to="/rooms" className="text-gray-300 hover:text-wood-light transition">Habitaciones</Link></li>
-              <li><a href="#servicios" className="text-gray-300 hover:text-wood-light transition">Servicios</a></li>
-              <li><a href="#contacto" className="text-gray-300 hover:text-wood-light transition">Contacto</a></li>
+              <li><Link to="/" className="text-gray-300 transition">Inicio</Link></li>
+              <li><Link to="/rooms" className="text-gray-300 transition">Habitaciones</Link></li>
+              <li><a href="#servicios" className="text-gray-300 transition">Servicios</a></li>
+              <li><a href="#contacto" className="text-gray-300 transition">Contacto</a></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-wood-light">Contacto</h4>
+            <h4 className="text-lg font-bold mb-4 ">Contacto</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <PhoneIcon className="w-5 h-5 text-wood-beige" />
@@ -49,7 +49,7 @@ export default function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-wood-light">Síguenos</h4>
+            <h4 className="text-lg font-bold mb-4">Síguenos</h4>
             <div className="flex gap-4">
               <a href="#facebook" className="bg-wood-medium p-2 rounded hover:bg-wood-beige transition text-sm font-bold">
                 f

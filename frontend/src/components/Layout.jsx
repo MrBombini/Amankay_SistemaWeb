@@ -193,12 +193,12 @@ export default function Layout({ children }) {
                 className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition"
               >
                 <UserCircleIcon className="h-6 w-6 text-wood-medium" />
-                <span className="text-sm font-medium text-gray-900">{auth?.user?.name}</span>
+                <span className="text-sm font-medium  text-gray-900">{auth?.user?.name}</span>
               </button>
 
               {profileDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
-                  <div className="px-4 py-3 bg-gradient-to-r from-wood-light to-wood-beige text-white">
+                <div className="absolute left-8 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
+                  <div className="px-4 py-3 bg-linear-to-r from-wood-light to-wood-beige ">
                     <p className="font-semibold text-sm">{auth?.user?.name}</p>
                     <p className="text-xs text-wood-light/80">{auth?.user?.email}</p>
                   </div>
@@ -209,7 +209,7 @@ export default function Layout({ children }) {
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition text-sm font-medium"
                         onClick={() => setProfileDropdownOpen(false)}
                       >
-                        📊 Panel de Admin
+                        Panel de Admin
                       </Link>
                     ) : (
                       <Link
@@ -217,7 +217,7 @@ export default function Layout({ children }) {
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition text-sm font-medium"
                         onClick={() => setProfileDropdownOpen(false)}
                       >
-                        👤 Mi Perfil
+                        Mi Perfil
                       </Link>
                     )}
                     <Link
@@ -225,7 +225,7 @@ export default function Layout({ children }) {
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition text-sm font-medium"
                       onClick={() => setProfileDropdownOpen(false)}
                     >
-                      📅 Mis Reservas
+                      Mis Reservas
                     </Link>
                     <hr className="my-2" />
                     <button
@@ -236,7 +236,7 @@ export default function Layout({ children }) {
                       }}
                       className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition text-sm font-medium"
                     >
-                      🚪 Cerrar Sesión
+                      Cerrar Sesión
                     </button>
                   </div>
                 </div>

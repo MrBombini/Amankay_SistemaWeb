@@ -15,9 +15,30 @@ export default function Home() {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const profileDropdownRef = useRef(null);
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     loadData();
+  }, []);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const interval = setInterval(() => {
+      const items = carousel.querySelectorAll('.carousel-item');
+      if (items.length === 0) return;
+
+      const scrollAmount = carousel.offsetHeight;
+      carousel.scrollTop += scrollAmount;
+
+      // Si llegamos al final, volver al inicio
+      if (carousel.scrollTop >= carousel.scrollHeight - carousel.offsetHeight) {
+        carousel.scrollTop = 0;
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -123,18 +144,18 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white overflow-hidden">
       {/* NAVBAR */}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-wood-light/20 shadow-sm">
+      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-wood-medium">🏨</span>
-            <span className="text-xl font-bold text-wood-ink">Amankay Inn</span>
+            <span className="text-2xl font-bold">🏨</span>
+            <span className="text-xl font-bold">Amankay Inn</span>
           </div>
-          
+
           <div className="hidden md:flex gap-8">
-            <a href="#hero" className="text-gray-600 hover:text-wood-medium transition font-medium">Inicio</a>
-            <a href="#rooms" className="text-gray-600 hover:text-wood-medium transition font-medium">Habitaciones</a>
-            <a href="#services" className="text-gray-600 hover:text-wood-medium transition font-medium">Servicios</a>
-            <a href="#testimonials" className="text-gray-600 hover:text-wood-medium transition font-medium">Testimonios</a>
+            <a href="#hero" className="text-gray-600  transition font-medium">Inicio</a>
+            <a href="#rooms" className="text-gray-600 transition font-medium">Habitaciones</a>
+            <a href="#services" className="text-gray-600 transition font-medium">Servicios</a>
+            <a href="#testimonials" className="text-gray-600 transition font-medium">Testimonios</a>
           </div>
 
           <div className="flex gap-3 items-center">
@@ -144,15 +165,15 @@ export default function Home() {
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition"
                 >
-                  <UserCircleIcon className="w-6 h-6 text-wood-medium" />
-                  <span className="hidden sm:inline text-wood-ink font-medium">{auth.user.name}</span>
+                  <UserCircleIcon className="w-6 h-6" />
+                  <span className="hidden sm:inline font-medium">{auth.user.name}</span>
                 </button>
 
                 {profileDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
-                    <div className="px-4 py-3 bg-gradient-to-r from-wood-light to-wood-beige text-white">
+                    <div className="px-4 py-3 ">
                       <p className="font-semibold text-sm">{auth.user.name}</p>
-                      <p className="text-xs text-wood-light/80">{auth.user.email}</p>
+                      <p className="text-xs ">{auth.user.email}</p>
                     </div>
                     <div className="py-2">
                       <Link
@@ -160,14 +181,14 @@ export default function Home() {
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition text-sm font-medium"
                         onClick={() => setProfileDropdownOpen(false)}
                       >
-                        👤 Mi Perfil
+                        Mi Perfil
                       </Link>
                       <Link
                         to="/reservas"
                         className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition text-sm font-medium"
                         onClick={() => setProfileDropdownOpen(false)}
                       >
-                        📅 Mis Reservas
+                        Mis Reservas
                       </Link>
                       <hr className="my-2" />
                       <button
@@ -178,7 +199,7 @@ export default function Home() {
                         }}
                         className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition text-sm font-medium"
                       >
-                        🚪 Cerrar Sesión
+                        Cerrar Sesión
                       </button>
                     </div>
                   </div>
@@ -186,10 +207,10 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <Link to="/login" className="text-wood-medium font-semibold hover:text-wood-dark transition">
+                <Link to="/login" className="text-wood-medium font-semibold transition">
                   Iniciar Sesión
                 </Link>
-                <Link to="/rooms" className="bg-wood-medium text-white px-4 py-2 rounded-lg font-semibold hover:bg-wood-dark transition">
+                <Link to="/rooms" className="text-white px-4 py-2 rounded-lg font-semibold transition">
                   Reservar
                 </Link>
               </>
@@ -199,26 +220,26 @@ export default function Home() {
       </nav>
 
       {/* HERO SECTION */}
-      <section id="hero" className="relative bg-gradient-to-br from-wood-dark via-wood-medium to-wood-beige text-white py-32 overflow-hidden">
+      <section id="hero" className="relative bg-linear-to-br py-32 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-10 right-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
-              <h1 className="text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-6xl font-bold mb-6 leading-tight"> 
                 Bienvenido a <span className="text-wood-light">Amankay Inn</span>
               </h1>
-              <p className="text-xl text-wood-light/90 mb-8 leading-relaxed">
+              <p className="text-xl  mb-8 leading-relaxed">
                 Tu refugio de confort y calidez en el corazón de la ciudad. Descubre una experiencia única donde lujo y calidez se unen para hacer memorable cada momento.
               </p>
-              
+
               <div className="flex gap-4 flex-wrap">
-                <Link 
+                <Link
                   to="/rooms"
-                  className="bg-white text-wood-dark px-8 py-4 rounded-lg font-bold hover:bg-wood-light transition flex items-center gap-2 group"
+                  className="bg-[#E5E7E9] px-8 py-4 rounded-lg font-bold transition flex items-center gap-2 group"
                 >
                   Ver Catálogo
                   <ChevronRightIcon className="w-5 h-5 group-hover:translate-x-1 transition" />
@@ -226,7 +247,7 @@ export default function Home() {
                 {!auth && (
                   <Link
                     to="/login"
-                    className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 transition"
+                    className="border-2 border-[#000000]  px-8 py-4 rounded-lg font-bold hover:bg-[#E5E7E9] transition"
                   >
                     Iniciar Sesión
                   </Link>
@@ -245,9 +266,22 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative h-96 animate-fade-in-delayed">
-              <div className="absolute inset-0 bg-gradient-to-r from-wood-light/30 to-transparent rounded-3xl"></div>
-              <div className="text-9xl text-center mt-20 opacity-60">🏨</div>
+            <div className="relative h-96 w-96 ml-16 md:ml-20 lg:ml-40 animate-fade-in-delayed">
+              <div className="absolute inset-0 bg-linear-to-r from-wood-light/30 to-transparent rounded-3xl"></div>
+              <div className="text-9xl text-center  opacity-60">
+                <div ref={carouselRef} className="carousel carousel-vertical rounded-box h-96">
+                  <div className="carousel-item h-full">
+                    <img src="public/gato.jpg" />
+                  </div>
+                  <div className="carousel-item h-full">
+                    <img src="public/arona.jpg" />
+                  </div>
+                  <div className="carousel-item h-full">
+                    <img src="public/miyu.jpg" />
+                  </div>
+                </div>
+                {/* <img src="public/gato.jpg" alt="" /> */}
+              </div>
             </div>
           </div>
         </div>
@@ -269,7 +303,7 @@ export default function Home() {
             ) : rooms.length > 0 ? (
               rooms.map((room) => (
                 <div key={room.id} className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition">
-                  <div className="bg-gradient-to-br from-wood-light to-wood-beige h-32 flex items-center justify-center text-5xl">
+                  <div className="bg-linear-to-br from-wood-light to-wood-beige h-32 flex items-center justify-center text-5xl">
                     🏨
                   </div>
                   <div className="p-4">
@@ -285,9 +319,9 @@ export default function Home() {
                     )}
                     <div className="flex justify-between items-center pt-3 border-t">
                       <span className="text-xl font-bold text-wood-medium">${room.precio}/noche</span>
-                      <button 
+                      <button
                         onClick={() => openBookingModal(room)}
-                        className="px-3 py-1 bg-wood-medium text-white text-sm rounded hover:bg-wood-dark transition"
+                        className="px-3 py-1 text-sm rounded hover:bg-[#E5E7E9]  transition"
                       >
                         Reservar
                       </button>
@@ -316,7 +350,7 @@ export default function Home() {
             {gallery.map((item, i) => (
               <div
                 key={i}
-                className="h-64 bg-gradient-to-br from-wood-light to-wood-beige rounded-2xl flex items-center justify-center text-8xl hover:scale-105 transition cursor-pointer shadow-lg hover:shadow-xl"
+                className="h-64 bg-linear-to-br from-wood-light to-wood-beige rounded-2xl flex items-center justify-center text-8xl hover:scale-105 transition cursor-pointer shadow-lg hover:shadow-xl"
               >
                 {item.emoji}
               </div>
@@ -360,20 +394,19 @@ export default function Home() {
             {testimonials.map((test, i) => (
               <div
                 key={i}
-                className={`p-8 rounded-2xl transition cursor-pointer transform hover:scale-105 ${
-                  selectedTestimonial === i
-                    ? 'bg-wood-medium text-white shadow-2xl'
+                className={`p-8 rounded-2xl transition cursor-pointer transform hover:scale-105 ${selectedTestimonial === i
+                    ? 'shadow-2xl'
                     : 'bg-gray-50 border border-wood-light/20 hover:border-wood-medium'
-                }`}
+                  }`}
                 onClick={() => setSelectedTestimonial(i)}
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="text-5xl">{test.avatar}</div>
                   <div>
-                    <h3 className={`font-bold text-lg ${selectedTestimonial === i ? 'text-white' : 'text-wood-ink'}`}>
+                    <h3 className={`font-bold text-lg ${selectedTestimonial === i ? 'text-black' : 'text-gray-600'}`}>
                       {test.name}
                     </h3>
-                    <p className={`text-sm ${selectedTestimonial === i ? 'text-wood-light' : 'text-gray-600'}`}>
+                    <p className={`text-sm ${selectedTestimonial === i ? 'text-black' : 'text-gray-600'}`}>
                       {test.role}
                     </p>
                   </div>
@@ -388,7 +421,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <p className={`leading-relaxed ${selectedTestimonial === i ? 'text-white' : 'text-gray-700'}`}>
+                <p className={`leading-relaxed ${selectedTestimonial === i ? 'text-black' : 'text-gray-700'}`}>
                   "{test.text}"
                 </p>
               </div>
@@ -398,15 +431,15 @@ export default function Home() {
       </section>
 
       {/* CTA FINAL SECTION */}
-      <section className="py-20 bg-gradient-to-r from-wood-dark to-wood-medium text-white">
+      <section className="py-20 bg-linear-to-r text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-5xl font-bold mb-6">¿Listo para tu próxima aventura?</h2>
-          <p className="text-xl mb-10 text-wood-light/90">
+          <p className="text-xl mb-10">
             Reserva ahora y disfruta de una experiencia inolvidable en Amankay Inn
           </p>
           <Link
             to="/rooms"
-            className="inline-block bg-white text-wood-medium px-10 py-4 rounded-lg font-bold hover:bg-wood-light transition text-lg"
+            className="inline-block bg-white px-10 py-4 rounded-lg font-bold transition text-lg"
           >
             Explorar Habitaciones →
           </Link>

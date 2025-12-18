@@ -89,7 +89,7 @@ export default function AdminReports() {
           { label: 'Tasa de Ocupación', value: `${reports.stats.occupancyRate}%`, icon: '🏨' },
           { label: 'Tasa de Cancelación', value: `${reports.stats.cancelationRate}%`, icon: '❌' }
         ].map((stat, i) => (
-          <div key={i} className="bg-gradient-to-br from-wood-light to-wood-beige p-6 rounded-lg shadow-md">
+          <div key={i} className="bg-linear-to-br from-wood-light to-wood-beige p-6 rounded-lg shadow-md">
             <div className="text-3xl mb-2">{stat.icon}</div>
             <p className="text-gray-700 text-sm mb-2">{stat.label}</p>
             <p className="text-2xl font-bold text-wood-ink">{stat.value}</p>
@@ -172,7 +172,7 @@ export default function AdminReports() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-gradient-to-r from-wood-medium to-wood-beige h-2 rounded-full"
+                    className="bg-linear-to-r from-wood-medium to-wood-beige h-2 rounded-full"
                     style={{ width: `${metric.percentage}%` }}
                   ></div>
                 </div>
@@ -184,7 +184,7 @@ export default function AdminReports() {
 
       {/* Export Button */}
       <div className="mt-8 flex justify-center">
-        <button className="bg-wood-medium text-white px-6 py-3 rounded-lg font-semibold hover:bg-wood-dark transition flex items-center gap-2">
+        <button className="text-white px-6 py-3 rounded-lg font-semibold transition flex items-center gap-2">
           <span>📥</span>
           Descargar Reporte PDF
         </button>
